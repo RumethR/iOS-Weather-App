@@ -10,6 +10,10 @@ import Foundation
 import CoreLocation
 import MapKit
 
+struct LocationData: Codable {
+    let locationData: [Location]
+}
+
 struct Location: Identifiable, Codable {
     var id = UUID()
     let name: String

@@ -24,6 +24,10 @@ class WeatherMapViewModel: ObservableObject {
                 try await getCoordinatesForCity(city: city)
                 try await loadData(lat: coordinates?.latitude ?? 51.509865, lon: coordinates?.longitude ?? -0.118092)
                 
+                DispatchQueue.main.async {
+                    self.placesData = self.loadLocationsFromJSONFile()
+                }
+                
             } catch {
                 // Handle errors if necessary
                 print("Error loading weather data: \(error)")
@@ -145,19 +149,34 @@ class WeatherMapViewModel: ObservableObject {
 
     func loadLocationsFromJSONFile() -> [Location] {
         var allLocations: [Location] = []
+        var locationList: LocationData
         
         if let fileURL = Bundle.main.url(forResource: "places", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
-                let locationsFromJson = try decoder.decode([Location].self, from: data)
+                let locationsFromJson = try decoder.decode(LocationData.self, from: data)
                 
-                allLocations = locationsFromJson
+                locationList = locationsFromJson
+                for location in locationList.locationData {
+                    allLocations.append(location)
+                }
+
             } catch {
                 print("Error decoding JSON: \(error)")
             }
         }
         return allLocations
+    }
+    
+    func createMapMarkersFromLocations() -> [MapMarker] {
+        var allMapMarkers: [MapMarker] = []
+        
+        for location in placesData {
+            allMapMarkers.append(MapMarker(coordinate: location.coordinates))
+        }
+        
+        return allMapMarkers
     }
 
 }

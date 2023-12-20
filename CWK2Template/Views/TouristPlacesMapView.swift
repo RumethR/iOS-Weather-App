@@ -12,18 +12,14 @@ import MapKit
 
 struct TouristPlacesMapView: View {
     @EnvironmentObject var weatherMapViewModel: WeatherMapViewModel
-    @State var locations: [Location] = []
-    @State var  mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.5216871, longitude: -0.1391574), latitudinalMeters: 600, longitudinalMeters: 600)
     var body: some View {
-        NavigationView {
             VStack(spacing: 5) {
                 if weatherMapViewModel.coordinates != nil {
                     VStack(spacing: 10){
-                        Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-                            MapMarker(coordinate: CLLocationCoordinate2D(latitude: location.coordinates.latitude, longitude: location.coordinates.longitude))
-                            }
+                        Map(coordinateRegion: $weatherMapViewModel.region, annotationItems: weatherMapViewModel.placesData) { location in
+                            MapMarker(coordinate: location.coordinates)
                         }
-                            .frame(height: 300)
+                            .frame(height: 350)
                             .ignoresSafeArea()
                         VStack{
                             Text("This is a locally defined map for starter template")
@@ -47,9 +43,6 @@ struct TouristPlacesMapView: View {
                         }
                     }
                 }
-            }.frame(height:700)
-            .onAppear {
-                locations = weatherMapViewModel.loadLocationsFromJSONFile()
             }
         }
     }
