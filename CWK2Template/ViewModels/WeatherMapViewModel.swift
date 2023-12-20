@@ -21,7 +21,7 @@ class WeatherMapViewModel: ObservableObject {
 // MARK:  create Task to load London weather data when the app first launches
         Task {
             do {
-                try await getCoordinatesForCity()
+                try await getCoordinatesForCity(city: city)
                 let weatherData = try await loadData(lat: coordinates?.latitude ?? 51.503300, lon: coordinates?.longitude ?? -0.079400)
                 print("Weather data loaded: \(String(describing: weatherData.timezone))")
                 
@@ -31,9 +31,8 @@ class WeatherMapViewModel: ObservableObject {
             }
         }
     }
-    func getCoordinatesForCity() async throws {
-// MARK:  complete the code to get user coordinates for user entered place
-// and specify the map region
+    func getCoordinatesForCity(city: String) async throws {
+// MARK:  complete the code to get user coordinates for user entered place and specify the map region
 
         let geocoder = CLGeocoder()
         if let placemarks = try? await geocoder.geocodeAddressString(city),
@@ -42,6 +41,7 @@ class WeatherMapViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.coordinates = location
                 self.region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                self.city = city
             }
         } else {
             // Handle error here if geocoding fails

@@ -19,13 +19,13 @@ struct WeatherNowView: View {
 
                 TextField("Enter New Location", text: $temporaryCity)
                     .onSubmit {
-
                         weatherMapViewModel.city = temporaryCity
                         Task {
                             do {
+                                try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
                                 // write code to process user change of location
                             } catch {
-                                print("Error: \(error)")
+                                print("Error while parsing entered location: \(error)")
                                 isLoading = false
                             }
                         }
