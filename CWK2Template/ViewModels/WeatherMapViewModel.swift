@@ -22,8 +22,7 @@ class WeatherMapViewModel: ObservableObject {
         Task {
             do {
                 try await getCoordinatesForCity(city: city)
-                let weatherData = try await loadData(lat: coordinates?.latitude ?? 51.503300, lon: coordinates?.longitude ?? -0.079400)
-                print("Weather data loaded: \(String(describing: weatherData.timezone))")
+                try await loadData(lat: coordinates?.latitude ?? 51.509865, lon: coordinates?.longitude ?? -0.118092)
                 
             } catch {
                 // Handle errors if necessary
@@ -49,7 +48,7 @@ class WeatherMapViewModel: ObservableObject {
         }
     }
 
-    func loadData(lat: Double, lon: Double) async throws -> WeatherDataModel {
+    func loadData(lat: Double, lon: Double) async throws {
 // MARK:  add your appid in the url below:
         if let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=metric&appid=45e40ad89ec404cc27fbe41436448e30") {
             let session = URLSession(configuration: .default)
@@ -123,7 +122,6 @@ class WeatherMapViewModel: ObservableObject {
                     print("Temp for last day: \(weatherDataModel.daily[dailyCount-1].temp)")
                 }
                 print("//daily complete")
-                return weatherDataModel
             } catch {
 
                 if let decodingError = error as? DecodingError {

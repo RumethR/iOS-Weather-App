@@ -23,6 +23,9 @@ struct WeatherNowView: View {
                         Task {
                             do {
                                 try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
+                                
+                                try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
+                                
                                 // write code to process user change of location
                             } catch {
                                 print("Error while parsing entered location: \(error)")
