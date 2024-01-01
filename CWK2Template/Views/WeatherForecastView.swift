@@ -14,8 +14,7 @@ struct WeatherForecastView: View {
             ScrollView{
                 VStack(alignment: .leading, spacing: 16) {
                     if let hourlyData = weatherMapViewModel.weatherDataModel?.hourly {
-
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        ScrollView(.horizontal, showsIndicators: true) {
 
                             HStack(spacing: 10) {
 
@@ -51,7 +50,6 @@ struct WeatherForecastView: View {
                                 VStack{
                                     Text("Weather Forecast for \(weatherMapViewModel.city)").font(.title3)
                                         .fontWeight(.bold)
-                                    Text("See EPL examples from weeek 4 onwards")
                                 }
                             }
                         }
