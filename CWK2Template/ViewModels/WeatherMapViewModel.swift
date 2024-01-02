@@ -53,7 +53,6 @@ class WeatherMapViewModel: ObservableObject {
     }
 
     func loadData(lat: Double, lon: Double) async throws {
-// MARK:  add your appid in the url below:
         if let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=metric&appid=45e40ad89ec404cc27fbe41436448e30") {
             let session = URLSession(configuration: .default)
 
@@ -63,69 +62,8 @@ class WeatherMapViewModel: ObservableObject {
 
                 DispatchQueue.main.async {
                     self.weatherDataModel = weatherDataModel
-                    print("weatherDataModel loaded")
                 }
-
-
-// MARK:  The code below is to help you see number of records and different time stamps that has been retrieved as part of api response.
- 
-                print("MINUTELY")
-                if let count = weatherDataModel.minutely?.count {
-                    if let firstTimestamp = weatherDataModel.minutely?[0].dt {
-                        let firstDate = Date(timeIntervalSince1970: TimeInterval(firstTimestamp))
-                        let formattedFirstDate = DateFormatterUtils.shared.string(from: firstDate)
-                        print("First Timestamp: \(formattedFirstDate)")
-                    }
-
-                    if let lastTimestamp = weatherDataModel.minutely?[count - 1].dt {
-                        let lastDate = Date(timeIntervalSince1970: TimeInterval(lastTimestamp))
-                        let formattedLastDate = DateFormatterUtils.shared.string(from: lastDate)
-                        print("Last Timestamp: \(formattedLastDate)")
-                    }
-                } // minute
-
-                print("Hourly start")
-
-                let hourlyCount = weatherDataModel.hourly.count
-                print(hourlyCount)
-                if hourlyCount > 0 {
-                    let firstTimestamp = weatherDataModel.hourly[0].dt
-                    let firstDate = Date(timeIntervalSince1970: TimeInterval(firstTimestamp))
-                    let formattedFirstDate = DateFormatterUtils.shared.string(from: firstDate)
-                    print("First Hourly Timestamp: \(formattedFirstDate)")
-                    print("Temp in first hour: \(weatherDataModel.hourly[0].temp)")
-                }
-
-                if hourlyCount > 0 {
-                    let lastTimestamp = weatherDataModel.hourly[hourlyCount - 1].dt
-                    let lastDate = Date(timeIntervalSince1970: TimeInterval(lastTimestamp))
-                    let formattedLastDate = DateFormatterUtils.shared.string(from: lastDate)
-                    print("Last Hourly Timestamp: \(formattedLastDate)")
-                    print("Temp in last hour: \(weatherDataModel.hourly[hourlyCount - 1].temp)")
-                }
-
-                print("//Hourly Complete")
-
-                print("Daily start")
-                let dailyCount = weatherDataModel.daily.count
-                print(dailyCount)
-
-                if dailyCount > 0 {
-                    let firstTimestamp = weatherDataModel.daily[0].dt
-                    let firstDate = Date(timeIntervalSince1970: TimeInterval(firstTimestamp))
-                    let formattedFirstDate = DateFormatterUtils.shared.string(from: firstDate)
-                    print("First daily Timestamp: \(formattedFirstDate)")
-                    print("Temp for first day: \(weatherDataModel.daily[0].temp)")
-                }
-
-                if dailyCount > 0 {
-                    let firstTimestamp = weatherDataModel.daily[dailyCount-1].dt
-                    let firstDate = Date(timeIntervalSince1970: TimeInterval(firstTimestamp))
-                    let formattedFirstDate = DateFormatterUtils.shared.string(from: firstDate)
-                    print("Last daily Timestamp: \(formattedFirstDate)")
-                    print("Temp for last day: \(weatherDataModel.daily[dailyCount-1].temp)")
-                }
-                print("//daily complete")
+                print("Data Fetched From Open Weather Map. Please use wisely")
             } catch {
 
                 if let decodingError = error as? DecodingError {
