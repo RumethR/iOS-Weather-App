@@ -20,7 +20,9 @@ struct WeatherForecastView: View {
                             HStack(spacing: 10) {
 
                                 ForEach(hourlyData) { hour in
-                                    HourWeatherView(current: hour)
+                                    //Access the necessary icon from the hour value and make an api request
+                                    let iconURL = weatherMapViewModel.weatherIconURL(iconCode: hour.weather.first?.icon ?? "")
+                                    HourWeatherView(current: hour, iconPath: iconURL)
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -51,7 +53,6 @@ struct WeatherForecastView: View {
                                 VStack{
                                     Text("Weather Forecast for \(weatherMapViewModel.city)").font(.title3)
                                         .fontWeight(.bold)
-                                    Text("See EPL examples from weeek 4 onwards")
                                 }
                             }
                         }

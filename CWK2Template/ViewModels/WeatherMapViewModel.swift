@@ -178,6 +178,10 @@ class WeatherMapViewModel: ObservableObject {
         
         return allMapMarkers
     }
+    
+    func weatherIconURL(iconCode: String) -> URL {
+        return URL(string: "https://openweathermap.org/img/wn/\(iconCode)@2x.png?appid=45e40ad89ec404cc27fbe41436448e30")!
+    }
 
 }
 
