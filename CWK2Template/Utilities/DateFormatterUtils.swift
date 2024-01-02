@@ -59,7 +59,7 @@ class DateFormatterUtils {
         }
     static func formattedDateWithDay(from timestamp: TimeInterval) -> String {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "h a E" // Format for 12-hour time with AM/PM and abbreviated day of the week
+            dateFormatter.dateFormat = "hh a E" // Format for 12-hour time with AM/PM and abbreviated day of the week
             let dateString = dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
             return dateString
         }
