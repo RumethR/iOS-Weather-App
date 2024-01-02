@@ -18,42 +18,38 @@ struct WeatherForecastView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
 
                             HStack(spacing: 10) {
-
                                 ForEach(hourlyData) { hour in
                                     //Access the necessary icon from the hour value and make an api request
                                     let iconURL = weatherMapViewModel.weatherIconURL(iconCode: hour.weather.first?.icon ?? "")
                                     HourWeatherView(current: hour, iconPath: iconURL)
                                 }
                             }
-                            .padding(.horizontal, 16)
                         }
                         .frame(height: 180)
                     }
                     Divider()
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
-                    VStack { 
+                    VStack(alignment: .listRowSeparatorLeading) { 
                         List {
                             ForEach(weatherMapViewModel.weatherDataModel?.daily ?? []) { day in
-                                DailyWeatherView(day: day)
+                                let iconURL = weatherMapViewModel.weatherIconURL(iconCode: day.weather.first?.icon ?? "")
+                                DailyWeatherView(day: day, iconPath: iconURL)
                             }
                         }
-                        .listStyle(GroupedListStyle())
+                        .listStyle(.plain)
                         .frame(height: 500)
                         // .opacity(0.2)
                     }
                 }
-                .padding(.horizontal, 16)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                         ToolbarItem(placement: .principal) {
                             HStack {
                                 Image(systemName: "sun.min.fill")
-                                VStack{
-                                    Text("Weather Forecast for \(weatherMapViewModel.city)").font(.title3)
-                                        .fontWeight(.bold)
-                                }
+                                Text("Weather Forecast for \(weatherMapViewModel.city)").font(.title3)
+                                    .fontWeight(.bold)
                             }
                         }
                     }
