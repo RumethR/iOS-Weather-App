@@ -12,11 +12,12 @@ import MapKit
 
 struct TouristPlacesMapView: View {
     @EnvironmentObject var weatherMapViewModel: WeatherMapViewModel
+    @State var currentLocation: MKCoordinateRegion = MKCoordinateRegion()
     var body: some View {
             VStack(spacing: 5) {
                 if weatherMapViewModel.coordinates != nil {
                     VStack(spacing: 10){
-                        Map(coordinateRegion: $weatherMapViewModel.region, annotationItems: weatherMapViewModel.placesData) { location in
+                        Map(coordinateRegion: $currentLocation, annotationItems: weatherMapViewModel.placesData) { location in
                             MapMarker(coordinate: location.coordinates)
                         }
                             .frame(height: 350)
@@ -52,6 +53,10 @@ struct TouristPlacesMapView: View {
                         Text("Unfortunately we do not have any Tourist Destinations for this location yet")
                     }
                 }
+            }
+            .onAppear {
+                // Using London's coordinates to deafult if weatherMapViewModel doesn not provide any coordinates.
+                currentLocation = MKCoordinateRegion(center: weatherMapViewModel.coordinates ?? CLLocationCoordinate2D(latitude: 51.509865, longitude: -0.118092), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
             }
         }
     }
