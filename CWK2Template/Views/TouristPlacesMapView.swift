@@ -22,25 +22,34 @@ struct TouristPlacesMapView: View {
                             .frame(height: 350)
                             .ignoresSafeArea()
                         VStack{
-                            Text("This is a locally defined map for starter template")
-                            Text("A map of the user-entered location should be shown here")
-                            Text("Map should also show pins of tourist places")
+                            Text("Tourist Destinations in your area")
                         }.multilineTextAlignment(.leading)
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                List{
-                    HStack{
-                        VStack {
-                            Text("Tourist place Image")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            Text("Tourist place details")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            Text("See images in coursework spec")
+                if weatherMapViewModel.supportedTouristDestinations.contains(weatherMapViewModel.city) {
+                    List{
+                        ForEach(weatherMapViewModel.placesData) { item in
+                            HStack{
+                                Image(item.imageNames[0])
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                VStack {
+                                    Text("\(item.name)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                    Text("\(item.description)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
                         }
+                    }
+                } else {
+                    Spacer()
+                    VStack {
+                        Text("Unfortunately we do not have any Tourist Destinations for this location yet")
                     }
                 }
             }

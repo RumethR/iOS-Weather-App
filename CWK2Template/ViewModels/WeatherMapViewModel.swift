@@ -17,6 +17,7 @@ class WeatherMapViewModel: ObservableObject {
     @Published var region: MKCoordinateRegion = MKCoordinateRegion()
     @Published var placesData: [Location] = []
     @Published var mapMarkers: [MapMarker] = []
+    @Published var supportedTouristDestinations = ["London", "Rome", "Paris", "New York"]
     init() {
 // MARK:  create Task to load London weather data when the app first launches
         Task {
@@ -97,13 +98,17 @@ class WeatherMapViewModel: ObservableObject {
                 
                 locationList = locationsFromJson
                 for location in locationList.locationData {
-                    allLocations.append(location)
+                    if (location.cityName == self.city) {
+                        allLocations.append(location)
+                    }
                 }
 
             } catch {
                 print("Error decoding JSON: \(error)")
             }
         }
+        
+        // Return only the data for the current location
         return allLocations
     }
     

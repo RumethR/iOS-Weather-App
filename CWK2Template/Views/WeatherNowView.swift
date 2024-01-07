@@ -65,14 +65,12 @@ struct WeatherNowView: View {
                     .shadow(color: .black, radius: 1) 
 
                 HStack{
-                   
                     // Weather Temperature Value
                     if let forecast = weatherMapViewModel.weatherDataModel {
                         Text("Temp: \((Double)(forecast.current.temp), specifier: "%.2f") ºC")
                             .font(.system(size: 25, weight: .medium))
                     } else {
-                        Text("Temp: N/A")
-                            .font(.system(size: 25, weight: .medium))
+                        ProgressView()
                     }
                     
                 }
