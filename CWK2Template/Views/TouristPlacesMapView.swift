@@ -49,8 +49,16 @@ struct TouristPlacesMapView: View {
                     }
                     .listStyle(.plain)
                 } else {
-                    Spacer()
-                    Text("Unfortunately we do not have any Tourist Destinations for this location yet")
+                    Image(systemName: "exclamationmark.circle")
+                        .font(.system(size: 40))
+                        .foregroundColor(.red)
+                        .padding(.top)
+                    
+                    Text("Unfortunately we do not have any Tourist Destinations for this location yet.")
+                        .multilineTextAlignment(.center)
+                        .bold()
+                        .padding()
+                    
                     Spacer()
                 }
             }
