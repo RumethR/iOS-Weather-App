@@ -12,17 +12,18 @@ import MapKit
 
 struct TouristPlacesMapView: View {
     @EnvironmentObject var weatherMapViewModel: WeatherMapViewModel
-    @State var currentLocation: MKCoordinateRegion = MKCoordinateRegion()
     var body: some View {
         NavigationStack {
             VStack {
                 if weatherMapViewModel.coordinates != nil {
-                    VStack {
-                        Map(coordinateRegion: $currentLocation, annotationItems: weatherMapViewModel.placesData) { location in
-                            MapMarker(coordinate: location.coordinates)
+                    if let currentlocation = weatherMapViewModel.region{
+                        VStack {
+                            Map(coordinateRegion: .constant(currentlocation), annotationItems: weatherMapViewModel.placesData) { location in
+                                MapMarker(coordinate: location.coordinates)
+                            }
+                            .ignoresSafeArea()
+                            .frame(height: 320)
                         }
-                        .ignoresSafeArea()
-                        .frame(height: 320)
                     }
                 }
                 if weatherMapViewModel.supportedTouristDestinations.contains(weatherMapViewModel.city) {
@@ -52,10 +53,6 @@ struct TouristPlacesMapView: View {
                     Text("Unfortunately we do not have any Tourist Destinations for this location yet")
                     Spacer()
                 }
-            }
-            .onAppear {
-                // Using London's coordinates to deafult if weatherMapViewModel doesn not provide any coordinates.
-                currentLocation = MKCoordinateRegion(center: weatherMapViewModel.coordinates ?? CLLocationCoordinate2D(latitude: 51.509865, longitude: -0.118092), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
             }
         }
     }
