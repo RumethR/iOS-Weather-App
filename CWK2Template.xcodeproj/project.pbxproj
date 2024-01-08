@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1FED2A1E2B4BAF2800D1BF0D /* TouristDestinationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FED2A1D2B4BAF2800D1BF0D /* TouristDestinationDetails.swift */; };
 		689617562AEEF38A00FC5FBE /* CWK2TemplateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689617552AEEF38A00FC5FBE /* CWK2TemplateApp.swift */; };
 		689617582AEEF38A00FC5FBE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689617572AEEF38A00FC5FBE /* ContentView.swift */; };
 		6896175A2AEEF38C00FC5FBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689617592AEEF38C00FC5FBE /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1FED2A1D2B4BAF2800D1BF0D /* TouristDestinationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristDestinationDetails.swift; sourceTree = "<group>"; };
 		689617522AEEF38A00FC5FBE /* CWK2Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWK2Template.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689617552AEEF38A00FC5FBE /* CWK2TemplateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWK2TemplateApp.swift; sourceTree = "<group>"; };
 		689617572AEEF38A00FC5FBE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				689617A32AF3B6F800FC5FBE /* HourWeatherView.swift */,
 				689617A52AF3CAB300FC5FBE /* DailyWeatherView.swift */,
 				6896176E2AEEF6C100FC5FBE /* TouristPlacesMapView.swift */,
+				1FED2A1D2B4BAF2800D1BF0D /* TouristDestinationDetails.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FED2A1E2B4BAF2800D1BF0D /* TouristDestinationDetails.swift in Sources */,
 				6896176D2AEEF6A400FC5FBE /* WeatherForecastView.swift in Sources */,
 				689617A62AF3CAB300FC5FBE /* DailyWeatherView.swift in Sources */,
 				6896179B2AF270B500FC5FBE /* PlacesDataModel.swift in Sources */,

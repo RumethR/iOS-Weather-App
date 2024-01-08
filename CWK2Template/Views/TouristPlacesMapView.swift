@@ -14,52 +14,52 @@ struct TouristPlacesMapView: View {
     @EnvironmentObject var weatherMapViewModel: WeatherMapViewModel
     @State var currentLocation: MKCoordinateRegion = MKCoordinateRegion()
     var body: some View {
-            VStack(spacing: 5) {
+        NavigationStack {
+            VStack {
                 if weatherMapViewModel.coordinates != nil {
-                    VStack(spacing: 10){
+                    VStack {
                         Map(coordinateRegion: $currentLocation, annotationItems: weatherMapViewModel.placesData) { location in
                             MapMarker(coordinate: location.coordinates)
                         }
-                            .frame(height: 350)
-                            .ignoresSafeArea()
-                        VStack{
-                            Text("Tourist Destinations in your area")
-                        }.multilineTextAlignment(.leading)
-                            .lineLimit(nil)
-                            .fixedSize(horizontal: false, vertical: true)
+                        .ignoresSafeArea()
+                        .frame(height: 320)
                     }
                 }
                 if weatherMapViewModel.supportedTouristDestinations.contains(weatherMapViewModel.city) {
+                    Text("Tourist Attractions in \(weatherMapViewModel.city)")
+                        .bold()
+                        .font(.title2)
+                        .padding(.vertical)
                     List{
                         ForEach(weatherMapViewModel.placesData) { item in
-                            HStack{
-                                Image(item.imageNames[0])
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                VStack {
-                                    Text("\(item.name)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                    Text("\(item.description)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                            NavigationLink(destination: TouristDestinationDetails()) {
+                                HStack{
+                                    Image(item.imageNames[0])
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .cornerRadius(10)
+                                    VStack {
+                                        Text("\(item.name)")
+                                            .font(.headline)
+                                    }
                                 }
                             }
                         }
                     }
+                    .listStyle(.plain)
                 } else {
                     Spacer()
-                    VStack {
-                        Text("Unfortunately we do not have any Tourist Destinations for this location yet")
-                    }
+                    Text("Unfortunately we do not have any Tourist Destinations for this location yet")
+                    Spacer()
                 }
             }
             .onAppear {
                 // Using London's coordinates to deafult if weatherMapViewModel doesn not provide any coordinates.
-                currentLocation = MKCoordinateRegion(center: weatherMapViewModel.coordinates ?? CLLocationCoordinate2D(latitude: 51.509865, longitude: -0.118092), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                currentLocation = MKCoordinateRegion(center: weatherMapViewModel.coordinates ?? CLLocationCoordinate2D(latitude: 51.509865, longitude: -0.118092), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
             }
         }
     }
+}
 
 
 

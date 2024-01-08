@@ -44,7 +44,7 @@ class WeatherMapViewModel: ObservableObject {
 
             DispatchQueue.main.async {
                 self.coordinates = location
-                self.region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                self.region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                 self.city = city
             }
         } else {
