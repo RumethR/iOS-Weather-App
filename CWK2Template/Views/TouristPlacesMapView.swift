@@ -45,6 +45,7 @@ struct TouristPlacesMapView: View {
                                     }
                                 }
                             }
+                            .listRowBackground(Color.gray.opacity(0.01))
                         }
                     }
                     .listStyle(.plain)
@@ -61,6 +62,11 @@ struct TouristPlacesMapView: View {
                     
                     Spacer()
                 }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background {
+                Color.gray.opacity(0.2)
+                    .ignoresSafeArea()
             }
         }
     }

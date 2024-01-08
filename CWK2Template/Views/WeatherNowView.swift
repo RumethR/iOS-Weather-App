@@ -80,7 +80,12 @@ struct WeatherNowView: View {
                 }
                
             }//VS2
-        }// VS1
+        } //VS1
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
+        }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Geocoding Error"), message: Text("Couldn't find the city provided"), dismissButton: .default(Text("Okay")))
         }

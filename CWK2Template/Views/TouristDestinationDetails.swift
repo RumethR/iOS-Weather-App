@@ -42,6 +42,11 @@ struct TouristDestinationDetails: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(locationData.name)")
     }
