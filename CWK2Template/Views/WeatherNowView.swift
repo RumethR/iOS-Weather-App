@@ -26,6 +26,8 @@ struct WeatherNowView: View {
                                 
                                 try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
                                 
+                                weatherMapViewModel.loadLocationsFromJSONFile()
+                                
                                 // write code to process user change of location
                             } catch {
                                 print("Error while parsing entered location: \(error)")
