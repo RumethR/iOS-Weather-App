@@ -9,25 +9,29 @@ import SwiftUI
 
 struct TouristDestinationDetails: View {
     @Binding var locationData: Location
+    @State private var imageList: [String] = []
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    TabView {
-                        ForEach(locationData.imageNames, id: \.self) { item in
-                             Image(item)
-                                .resizable()
-                                .scaledToFill() //Because the images are of different sizes
+                    // Not showing the image carousel if the images are not in Assests
+                    if imageList.count != 0 {
+                        TabView {
+                            ForEach(locationData.imageNames, id: \.self) { item in
+                                 Image(item)
+                                    .resizable()
+                                    .scaledToFill() //Because the images are of different sizes
+                            }
                         }
-                    }
-                    .tabViewStyle(PageTabViewStyle())
-                    .frame(height: 200)
-                    .padding(.bottom)
-                    
-                    Text("Description")
-                        .bold()
-                        .font(.title3)
+                        .tabViewStyle(PageTabViewStyle())
+                        .frame(height: 200)
                         .padding(.bottom)
+                        
+                        Text("Description")
+                            .bold()
+                            .font(.title3)
+                            .padding(.bottom)
+                    }
                     
                     Text("\(locationData.description)")
                         .padding()
@@ -39,6 +43,13 @@ struct TouristDestinationDetails: View {
                         
                         Link("\(locationData.link)", destination: url)
                     }
+                }
+            }
+        }
+        .onAppear {
+            for imageName in locationData.imageNames {
+                if UIImage(named: imageName) != nil {
+                    imageList.append(imageName)
                 }
             }
         }
