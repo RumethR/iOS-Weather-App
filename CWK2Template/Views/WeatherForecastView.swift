@@ -13,6 +13,12 @@ struct WeatherForecastView: View {
         NavigationView {
             ScrollView{
                 VStack(alignment: .leading, spacing: 16) {
+                    Text("48 Hour Weather Forecast")
+                        .bold()
+                        .font(.title2)
+                        .padding(.top)
+                        .padding(.leading)
+                    
                     if let hourlyData = weatherMapViewModel.weatherDataModel?.hourly {
                         ScrollView(.horizontal, showsIndicators: true) {
 
@@ -25,11 +31,15 @@ struct WeatherForecastView: View {
                             }
                         }
                         .frame(height: 180)
+                        .padding(.leading)
                     }
                     Divider()
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                    VStack(alignment: .listRowSeparatorLeading) { 
+                    VStack() {
+                        Text("8 Day Weather Forecast")
+                            .bold()
+                            .font(.title2)
+                            .padding()
                         List {
                             ForEach(weatherMapViewModel.weatherDataModel?.daily ?? []) { day in
                                 let iconURL = weatherMapViewModel.weatherIconURL(iconCode: day.weather.first?.icon ?? "")

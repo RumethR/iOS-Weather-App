@@ -153,6 +153,7 @@ enum Description: String, Codable {
     case brokenClouds5184 = "broken clouds: 51-84%"
     case overcastClouds85100 = "overcast clouds: 85-100%"
     case rainAndSnow = "rain and snow"
+    case lightShowerSnow = "light shower snow"
 }
 
 // MARK: - Daily
