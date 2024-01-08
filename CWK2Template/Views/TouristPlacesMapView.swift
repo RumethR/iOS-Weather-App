@@ -33,12 +33,12 @@ struct TouristPlacesMapView: View {
                         .padding(.vertical)
                     List{
                         ForEach(weatherMapViewModel.placesData) { item in
-                            NavigationLink(destination: TouristDestinationDetails()) {
+                            NavigationLink(destination: TouristDestinationDetails(locationData: .constant(item))) {
                                 HStack{
                                     Image(item.imageNames[0])
                                         .resizable()
                                         .frame(width: 60, height: 60)
-                                        .cornerRadius(10)
+                                        .cornerRadius(5)
                                     VStack {
                                         Text("\(item.name)")
                                             .font(.headline)

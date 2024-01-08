@@ -8,13 +8,41 @@
 import SwiftUI
 
 struct TouristDestinationDetails: View {
+    @Binding var locationData: Location
     var body: some View {
-        Text("Welcome To you Destination")
-    }
-}
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    TabView {
+                        ForEach(locationData.imageNames, id: \.self) { item in
+                             Image(item)
+                                .resizable()
+                                .scaledToFill() //Because the images are of different sizes
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .frame(height: 200)
+                    .padding(.bottom)
+                    
+                    Text("Description")
+                        .bold()
+                        .font(.title3)
+                        .padding(.bottom)
+                    
+                    Text("\(locationData.description)")
+                        .padding()
 
-struct TouristDestinationDetails_Previews: PreviewProvider {
-    static var previews: some View {
-        TouristDestinationDetails()
+                    if let url = URL(string: locationData.link) {
+                        Text("For more information visit:")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                        
+                        Link("\(locationData.link)", destination: url)
+                    }
+                }
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("\(locationData.name)")
     }
 }
