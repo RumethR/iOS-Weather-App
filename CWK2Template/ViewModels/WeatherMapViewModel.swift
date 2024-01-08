@@ -51,6 +51,11 @@ class WeatherMapViewModel: ObservableObject {
     }
 
     func loadData(lat: Double, lon: Double) async throws {
+        //Setting the object to nil to show the progress view when fetching new data
+        DispatchQueue.main.async {
+            self.weatherDataModel = nil
+        }
+        
         if let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=metric&appid=45e40ad89ec404cc27fbe41436448e30") {
             let session = URLSession(configuration: .default)
 
