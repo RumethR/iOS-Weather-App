@@ -11,6 +11,7 @@ struct WeatherNowView: View {
     @EnvironmentObject var weatherMapViewModel: WeatherMapViewModel
     @State private var isLoading = false
     @State private var temporaryCity = ""
+    @State private var showAlert: Bool = false
     var body: some View {
 
         VStack{
@@ -27,11 +28,13 @@ struct WeatherNowView: View {
                                 try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
                                 
                                 weatherMapViewModel.loadLocationsFromJSONFile()
-                                
+                                temporaryCity = ""
                                 // write code to process user change of location
                             } catch {
                                 print("Error while parsing entered location: \(error)")
+                                temporaryCity = ""
                                 isLoading = false
+                                showAlert = true
                             }
                         }
                     }
@@ -68,19 +71,22 @@ struct WeatherNowView: View {
 
                 HStack{
                     // Weather Temperature Value
-                    if let forecast = weatherMapViewModel.weatherDataModel {
+                    if let forecast = weatherMapViewModel.weatherDataModel, weatherMapViewModel.city != "Invalid City" {
                         Text("Temp: \((Double)(forecast.current.temp), specifier: "%.2f") ºC")
                             .font(.system(size: 25, weight: .medium))
                     } else {
                         ProgressView()
                     }
-                    
                 }
                
             }//VS2
         }// VS1
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Geocoding Error"), message: Text("Couldn't find the city provided"), dismissButton: .default(Text("Okay")))
+        }
     }
 }
+
 struct WeatherNowView_Previews: PreviewProvider {
     static var previews: some View {
         WeatherNowView()

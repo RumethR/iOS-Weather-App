@@ -46,7 +46,12 @@ class WeatherMapViewModel: ObservableObject {
             }
         } else {
             // Handle error here if geocoding fails
-            print("Error: Unable to find the coordinates for the club.")
+            print("Error: Unable to find the coordinates for the given city.")
+            
+            DispatchQueue.main.async {
+                self.city = "Invalid City"
+            }
+            throw CustomError.geocodingError
         }
     }
 
@@ -131,4 +136,8 @@ class WeatherMapViewModel: ObservableObject {
 
 }
 
+// To handle any exceptions (ex. geocoding, network, etc.)
+enum CustomError: Error {
+    case geocodingError
+}
 
