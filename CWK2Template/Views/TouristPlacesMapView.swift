@@ -19,7 +19,24 @@ struct TouristPlacesMapView: View {
                     if let currentlocation = weatherMapViewModel.region{
                         VStack {
                             Map(coordinateRegion: .constant(currentlocation), annotationItems: weatherMapViewModel.placesData) { location in
-                                MapMarker(coordinate: location.coordinates)
+                                MapAnnotation(coordinate: location.coordinates) {
+                                    NavigationLink(destination: TouristDestinationDetails(locationData: .constant(location))) {
+                                        VStack {
+                                            Text(location.name)
+                                                .font(.caption)
+                                                .bold()
+                                                .background(Color.white)
+                                                .foregroundColor(.black)
+                                                .cornerRadius(10)
+                                                .padding(.horizontal, 12)
+                                                .padding(.bottom, 2)
+                                            
+                                            Image(systemName: "mappin")
+                                                .font(.system(size: 30))
+                                                .foregroundColor(.red)
+                                        }
+                                    }
+                                }
                             }
                             .ignoresSafeArea()
                             .frame(height: 320)

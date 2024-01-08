@@ -2,7 +2,7 @@
 //  TouristDestinationDetails.swift
 //  CWK2Template
 //
-//  Created by Tihara Jayawickrama on 2024-01-08.
+//  Created by Rumeth Randombage on 2024-01-08.
 //
 
 import SwiftUI
