@@ -85,6 +85,8 @@ struct WeatherNowView: View {
                             .font(.headline)
                         
                     }
+                    .padding()
+                    .listRowBackground(Color.gray.opacity(0.01))
                     
                     HStack {
                         Image("pressure")
@@ -100,6 +102,8 @@ struct WeatherNowView: View {
                             .font(.headline)
                         
                     }
+                    .padding()
+                    .listRowBackground(Color.gray.opacity(0.01))
 
                     HStack {
                         Image("windSpeed")
@@ -111,13 +115,16 @@ struct WeatherNowView: View {
                             .font(.headline)
                             .padding(.horizontal)
 
-                        Text("\(weatherData.current.windSpeed)")
+                        Text("\((Double)(weatherData.current.windSpeed), specifier: "%.2f")")
                             .font(.headline)
                         
                     }
+                    .padding()
+                    .listRowBackground(Color.gray.opacity(0.01))
 
                 }
                 .listStyle(.plain)
+                .padding(.top)
             } else {
                 ProgressView()
             }
