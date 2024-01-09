@@ -38,7 +38,7 @@ struct TouristPlacesMapView: View {
                                 }
                             }
                             .ignoresSafeArea()
-                            .frame(height: 320)
+                            .frame(height: 300)
                         }
                     }
                 }
@@ -79,11 +79,14 @@ struct TouristPlacesMapView: View {
                     Spacer()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background {
-                Color.gray.opacity(0.2)
-                    .ignoresSafeArea()
-            }
+            .background(
+                Image("background2")
+                .resizable()
+                .scaledToFill()
+                .opacity(0.4)
+                .ignoresSafeArea()
+            )
+
         }
     }
 }

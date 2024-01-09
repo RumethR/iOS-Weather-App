@@ -39,7 +39,7 @@ struct HourWeatherView: View {
                  .padding(.horizontal)
         }
         .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
-        .background(Color.cyan.opacity(0.3))
+        .background(Color.cyan.opacity(0.4))
         .cornerRadius(10)
         
     }

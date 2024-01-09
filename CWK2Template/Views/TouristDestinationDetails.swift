@@ -24,7 +24,7 @@ struct TouristDestinationDetails: View {
                             }
                         }
                         .tabViewStyle(PageTabViewStyle())
-                        .frame(height: 200)
+                        .frame(height: 250)
                         .padding(.bottom)
                         
                         Text("Description")
@@ -53,11 +53,14 @@ struct TouristDestinationDetails: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            Color.gray.opacity(0.2)
-                .ignoresSafeArea()
-        }
+        .background(
+            Image("background2")
+            .resizable()
+            .scaledToFill()
+            .opacity(0.4)
+            .ignoresSafeArea()
+        )
+
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(locationData.name)")
     }

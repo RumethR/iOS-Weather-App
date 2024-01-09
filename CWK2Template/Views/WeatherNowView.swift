@@ -25,11 +25,11 @@ struct WeatherNowView: View {
                         do {
                             try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
                             
+                            // No need of any default values, application throws an error if geocoding fails
                             try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
                             
                             weatherMapViewModel.loadLocationsFromJSONFile()
                             temporaryCity = ""
-                            // write code to process user change of location
                         } catch {
                             print("Error while parsing entered location: \(error)")
                             temporaryCity = ""
@@ -132,11 +132,13 @@ struct WeatherNowView: View {
             }
         }
         .padding()//VS1
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background {
-            Color.gray.opacity(0.2)
-                .ignoresSafeArea()
-        }
+        .background(
+            Image("background2")
+            .resizable()
+            .scaledToFill()
+            .opacity(0.4)
+            .ignoresSafeArea()
+        )
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Geocoding Error"), message: Text("Couldn't find the city provided"), dismissButton: .default(Text("Okay")))
         }
