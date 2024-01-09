@@ -15,29 +15,38 @@ struct WeatherNowView: View {
     var body: some View {
 
         VStack{
-            TextField("Enter a city to get weather data", text: $temporaryCity)
-                .padding()
-                .textFieldStyle(.roundedBorder)
-                .shadow(color: .white, radius: 6)
-                .onSubmit {
-                    weatherMapViewModel.city = temporaryCity
-                    Task {
-                        do {
-                            try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
-                            
-                            // No need of any default values, application throws an error if geocoding fails
-                            try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
-                            
-                            weatherMapViewModel.loadLocationsFromJSONFile()
-                            temporaryCity = ""
-                        } catch {
-                            print("Error while parsing entered location: \(error)")
-                            temporaryCity = ""
-                            isLoading = false
-                            showAlert = true
+            HStack {
+                TextField("Enter a city to get weather data", text: $temporaryCity)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+                    .shadow(color: .gray, radius: 4)
+                    .onSubmit {
+                        weatherMapViewModel.city = temporaryCity
+                        Task {
+                            do {
+                                try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
+                                
+                                // No need of any default values, application throws an error if geocoding fails
+                                try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
+                                
+                                weatherMapViewModel.loadLocationsFromJSONFile()
+                                temporaryCity = ""
+                            } catch {
+                                print("Error while parsing entered location: \(error)")
+                                temporaryCity = ""
+                                isLoading = false
+                                showAlert = true
+                            }
                         }
                     }
-                }
+                Image(systemName: "house.fill")
+                    .font(.system(size: 20))
+                    .padding(.trailing, 8)
+                    .onTapGesture {
+                        //Save the current city using AppStorage
+                        weatherMapViewModel.saveDeaultLocation()
+                    }
+            }
                         
             let timestamp = TimeInterval(weatherMapViewModel.weatherDataModel?.current.dt ?? 0)
             let formattedDate = DateFormatterUtils.formattedDateTime(from: timestamp)

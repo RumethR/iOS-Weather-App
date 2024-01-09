@@ -12,15 +12,17 @@ import MapKit
 class WeatherMapViewModel: ObservableObject {
 // MARK:   published variables
     @Published var weatherDataModel: WeatherDataModel?
-    @Published var city = "London"
+    @Published var city: String = "London"
     @Published var coordinates: CLLocationCoordinate2D?
     @Published var region: MKCoordinateRegion = MKCoordinateRegion()
     @Published var placesData: [Location] = []
     @Published var mapMarkers: [MapMarker] = []
     @Published var supportedTouristDestinations = ["London", "Rome", "Paris", "New York"]
+    @AppStorage("defaultCity") var defaultCity: String = "London"
     init() {
 // MARK:  create Task to load London weather data when the app first launches
         Task {
+            self.city = defaultCity
             do {
                 try await getCoordinatesForCity(city: city)
                 try await loadData(lat: coordinates?.latitude ?? 51.509865, lon: coordinates?.longitude ?? -0.118092)
@@ -128,6 +130,12 @@ class WeatherMapViewModel: ObservableObject {
     
     func weatherIconURL(iconCode: String) -> URL {
         return URL(string: "https://openweathermap.org/img/wn/\(iconCode)@2x.png?appid=45e40ad89ec404cc27fbe41436448e30")!
+    }
+    
+    func saveDeaultLocation() {
+        if self.city != "Invalid City" {
+            self.defaultCity = self.city
+        }
     }
 
 }
