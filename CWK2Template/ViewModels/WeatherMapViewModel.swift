@@ -84,12 +84,8 @@ class WeatherMapViewModel: ObservableObject {
                 throw error // Re-throw the error to the caller
             }
         } else {
-            throw NetworkError.invalidURL
+            throw CustomError.invalidURL
         }
-    }
-
-    enum NetworkError: Error {
-        case invalidURL
     }
 
 
@@ -139,5 +135,6 @@ class WeatherMapViewModel: ObservableObject {
 // To handle any exceptions (ex. geocoding, network, etc.)
 enum CustomError: Error {
     case geocodingError
+    case invalidURL
 }
 

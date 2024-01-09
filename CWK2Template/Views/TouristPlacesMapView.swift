@@ -29,7 +29,6 @@ struct TouristPlacesMapView: View {
                                                 .foregroundColor(.black)
                                                 .cornerRadius(10)
                                                 .padding(.horizontal, 12)
-                                                .padding(.bottom, 2)
                                             
                                             Image(systemName: "mappin")
                                                 .font(.system(size: 30))

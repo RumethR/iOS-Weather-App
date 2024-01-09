@@ -15,72 +15,114 @@ struct WeatherNowView: View {
     var body: some View {
 
         VStack{
-            HStack{
-                Text("Change Location")
-
-                TextField("Enter New Location", text: $temporaryCity)
-                    .onSubmit {
-                        weatherMapViewModel.city = temporaryCity
-                        Task {
-                            do {
-                                try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
-                                
-                                try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
-                                
-                                weatherMapViewModel.loadLocationsFromJSONFile()
-                                temporaryCity = ""
-                                // write code to process user change of location
-                            } catch {
-                                print("Error while parsing entered location: \(error)")
-                                temporaryCity = ""
-                                isLoading = false
-                                showAlert = true
-                            }
+            TextField("Enter a city to get weather data", text: $temporaryCity)
+                .padding()
+                .textFieldStyle(.roundedBorder)
+                .shadow(color: .white, radius: 6)
+                .onSubmit {
+                    weatherMapViewModel.city = temporaryCity
+                    Task {
+                        do {
+                            try await weatherMapViewModel.getCoordinatesForCity(city: temporaryCity)
+                            
+                            try await weatherMapViewModel.loadData(lat: weatherMapViewModel.coordinates!.latitude, lon: weatherMapViewModel.coordinates!.longitude)
+                            
+                            weatherMapViewModel.loadLocationsFromJSONFile()
+                            temporaryCity = ""
+                            // write code to process user change of location
+                        } catch {
+                            print("Error while parsing entered location: \(error)")
+                            temporaryCity = ""
+                            isLoading = false
+                            showAlert = true
                         }
                     }
-            }
-            .bold()
-            .font(.system(size: 20))
-            .padding(10)
-            .shadow(color: .blue, radius: 10)
-            .cornerRadius(10)
-            .fixedSize()
-            .font(.custom("Arial", size: 26))
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .cornerRadius(15)
-            VStack{
-                HStack{
-                    Text("Current Location: \(weatherMapViewModel.city)")
                 }
+                        
+            let timestamp = TimeInterval(weatherMapViewModel.weatherDataModel?.current.dt ?? 0)
+            let formattedDate = DateFormatterUtils.formattedDateTime(from: timestamp)
+            Text(formattedDate)
+                .padding(.top)
+                .font(.body)
+            
+            Text("Current Location: \(weatherMapViewModel.city)")
+                .font(.headline)
                 .bold()
-                .font(.system(size: 20))
-                .padding(10)
-                .shadow(color: .blue, radius: 10)
-                .cornerRadius(10)
-                .fixedSize()
-                .font(.custom("Arial", size: 26))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .cornerRadius(15)
-                let timestamp = TimeInterval(weatherMapViewModel.weatherDataModel?.current.dt ?? 0)
-                let formattedDate = DateFormatterUtils.formattedDateTime(from: timestamp)
-                Text(formattedDate)
-                    .padding()
-                    .font(.title)
-                    .foregroundColor(.black)
-                    .shadow(color: .black, radius: 1) 
 
-                HStack{
-                    // Weather Temperature Value
-                    if let forecast = weatherMapViewModel.weatherDataModel, weatherMapViewModel.city != "Invalid City" {
-                        Text("Temp: \((Double)(forecast.current.temp), specifier: "%.2f") ºC")
-                            .font(.system(size: 25, weight: .medium))
-                    } else {
-                        ProgressView()
+            AsyncImage(url: weatherMapViewModel.weatherIconURL(iconCode: weatherMapViewModel.weatherDataModel?.current.weather.first?.icon ?? "")) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 180, height: 180)
+            
+            Text("\((Double)(weatherMapViewModel.weatherDataModel?.current.temp ?? 0), specifier: "%.0f") ºC")
+                .font(.title)
+                .bold()
+            
+            Text("\(weatherMapViewModel.weatherDataModel?.current.weather.first?.weatherDescription.rawValue.capitalized ?? "N/A")")
+                .font(.title)
+                .bold()
+            
+
+            Spacer()
+            
+            if let weatherData = weatherMapViewModel.weatherDataModel {
+                List {
+                    HStack {
+                        Image("humidity")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+
+                        Text("Humidity")
+                            .font(.headline)
+                            .padding(.horizontal)
+
+                        Text("\(weatherData.current.humidity)")
+                            .font(.headline)
+                        
                     }
+                    
+                    HStack {
+                        Image("pressure")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+
+                        Text("Pressure")
+                            .font(.headline)
+                            .padding(.horizontal)
+
+                        Text("\(weatherData.current.pressure)")
+                            .font(.headline)
+                        
+                    }
+
+                    HStack {
+                        Image("windSpeed")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+
+                        Text("Wind Speed")
+                            .font(.headline)
+                            .padding(.horizontal)
+
+                        Text("\(weatherData.current.windSpeed)")
+                            .font(.headline)
+                        
+                    }
+
                 }
-               
-            }//VS2
-        } //VS1
+                .listStyle(.plain)
+            } else {
+                ProgressView()
+            }
+        }
+        .padding()//VS1
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             Color.gray.opacity(0.2)
