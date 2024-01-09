@@ -48,28 +48,28 @@ struct WeatherNowView: View {
             Text("Current Location: \(weatherMapViewModel.city)")
                 .font(.headline)
                 .bold()
-
-            AsyncImage(url: weatherMapViewModel.weatherIconURL(iconCode: weatherMapViewModel.weatherDataModel?.current.weather.first?.icon ?? "")) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 180, height: 180)
-            
-            Text("\((Double)(weatherMapViewModel.weatherDataModel?.current.temp ?? 0), specifier: "%.0f") ºC")
-                .font(.title)
-                .bold()
-            
-            Text("\(weatherMapViewModel.weatherDataModel?.current.weather.first?.weatherDescription.rawValue.capitalized ?? "N/A")")
-                .font(.title)
-                .bold()
-            
-
-            Spacer()
             
             if let weatherData = weatherMapViewModel.weatherDataModel {
+                // Force Unwrapping because we can assure that weatherDataModel will always contain a weather obj
+                AsyncImage(url: weatherMapViewModel.weatherIconURL(iconCode: weatherData.current.weather.first!.icon)) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 180, height: 180)
+                
+                Text("\((Double)(weatherData.current.temp), specifier: "%.0f") ºC")
+                    .font(.title)
+                    .bold()
+                
+                Text("\(weatherData.current.weather.first!.weatherDescription.rawValue.capitalized)")
+                    .font(.title)
+                    .bold()
+                
+                Spacer()
+                
                 List {
                     HStack {
                         Image("humidity")
@@ -126,7 +126,9 @@ struct WeatherNowView: View {
                 .listStyle(.plain)
                 .padding(.top)
             } else {
+                Spacer()
                 ProgressView()
+                Spacer()
             }
         }
         .padding()//VS1
