@@ -49,7 +49,6 @@ struct WeatherForecastView: View {
                         }
                         .listStyle(.plain)
                         .frame(height: 500)
-                        // .opacity(0.2)
                     }
                 }
             }

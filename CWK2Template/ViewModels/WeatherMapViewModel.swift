@@ -12,15 +12,14 @@ import MapKit
 class WeatherMapViewModel: ObservableObject {
 // MARK:   published variables
     @Published var weatherDataModel: WeatherDataModel?
-    @Published var city: String = "London"
+    @Published var city: String = ""
     @Published var coordinates: CLLocationCoordinate2D?
     @Published var region: MKCoordinateRegion = MKCoordinateRegion()
     @Published var placesData: [Location] = []
-    @Published var mapMarkers: [MapMarker] = []
     @Published var supportedTouristDestinations = ["London", "Rome", "Paris", "New York"]
     @AppStorage("defaultCity") var defaultCity: String = "London"
+    
     init() {
-// MARK:  create Task to load London weather data when the app first launches
         Task {
             self.city = defaultCity
             do {
@@ -34,9 +33,8 @@ class WeatherMapViewModel: ObservableObject {
             }
         }
     }
+    
     func getCoordinatesForCity(city: String) async throws {
-// MARK:  complete the code to get user coordinates for user entered place and specify the map region
-
         let geocoder = CLGeocoder()
         if let placemarks = try? await geocoder.geocodeAddressString(city),
            let location = placemarks.first?.location?.coordinate {
@@ -90,7 +88,6 @@ class WeatherMapViewModel: ObservableObject {
         }
     }
 
-
     func loadLocationsFromJSONFile() {
         var allLocations: [Location] = []
         var locationList: LocationData
@@ -116,16 +113,6 @@ class WeatherMapViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.placesData = allLocations
         }
-    }
-    
-    func createMapMarkersFromLocations() -> [MapMarker] {
-        var allMapMarkers: [MapMarker] = []
-        
-        for location in placesData {
-            allMapMarkers.append(MapMarker(coordinate: location.coordinates))
-        }
-        
-        return allMapMarkers
     }
     
     func weatherIconURL(iconCode: String) -> URL {
