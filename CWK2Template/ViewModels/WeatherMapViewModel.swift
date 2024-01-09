@@ -16,7 +16,6 @@ class WeatherMapViewModel: ObservableObject {
     @Published var coordinates: CLLocationCoordinate2D?
     @Published var region: MKCoordinateRegion?
     @Published var placesData: [Location] = []
-    @Published var supportedTouristDestinations = ["London", "Rome", "Paris", "New York"]
     @AppStorage("defaultCity") var defaultCity: String = "London"
     
     init() {

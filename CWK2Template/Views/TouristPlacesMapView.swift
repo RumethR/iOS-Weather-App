@@ -42,7 +42,7 @@ struct TouristPlacesMapView: View {
                         }
                     }
                 }
-                if weatherMapViewModel.supportedTouristDestinations.contains(weatherMapViewModel.city) {
+                if weatherMapViewModel.placesData.count != 0 {
                     Text("Tourist Attractions in \(weatherMapViewModel.city)")
                         .bold()
                         .font(.title2)
